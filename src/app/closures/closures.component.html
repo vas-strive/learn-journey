@@ -1,0 +1,71 @@
+<h2>Closures</h2>
+<details>
+  <summary>Definition</summary>
+  <p>
+    Closures in JavaScript are a powerful feature that allow a function to access variables from an outer function's scope
+    <br>even after the outer function has completed execution. This behavior is essential for the
+    <br>encapsulation and management of state in many JavaScript patterns and applications.
+  </p>
+</details>
+
+<details>
+  <summary>How Closures Work</summary>
+  <p>
+    When you create a function inside another function, you have created a closure.<br>
+    The inner function will have access to the variables in the outer function scope,<br>
+    even after the outer function has returned. This is possible because functions in JavaScript form closures.
+  </p>
+</details>
+
+<details>
+  <summary>Example</summary>
+  <pre>
+    <code>
+        function outerFunction() '{{ "{" }}'
+          var outerVariable = 'I am outside!';
+
+          function innerFunction() '{{ "{" }}'
+            console.log(outerVariable); // Access to the outerVariable
+        }
+
+        return innerFunction;
+      }
+
+      var myClosure = outerFunction(); // outerFunction has returned
+      myClosure(); // logs 'I am outside!'
+    </code>
+  </pre>
+</details>
+
+<details>
+  <summary>Use Cases</summary>
+  <p>
+    <strong>Data encapsulation and privacy: </strong> By using closures, you can create public functions that have access to private variables and functions.
+    This is a fundamental aspect of the Module pattern.
+    <br>
+    <strong>Currying: </strong> Closures allow the partial application of functions,
+    meaning you can create a new function by fixing some parameters of the existing one.
+    <br>
+    <strong>Event handlers and callbacks: </strong> Closures are often used in event handlers and callbacks to maintain
+    state between the event or callback invocation.
+    <br>
+    <strong>Functional programming patterns: </strong> Closures facilitate functional programming patterns,
+    such as using functions as first-class objects, which can be passed around and manipulated within your code.
+  </p>
+
+</details>
+
+<details>
+  <summary>Benefits and Drawbacks</summary>
+  <p>
+    <strong>Benefits:</strong> Closures provide a way to maintain state in an asynchronous execution environment like JavaScript.
+    They enable powerful programming patterns and encapsulation.
+  </p>
+
+  <p>
+    <strong>Drawbacks:</strong> Improper use of closures can lead to memory leaks if large objects or structures are captured and not properly released.
+    Understanding and debugging closures can sometimes be challenging for beginners.
+  </p>
+</details>
+
+
