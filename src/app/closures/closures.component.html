@@ -2,18 +2,9 @@
 <details>
   <summary>Definition</summary>
   <p>
-    Closures in JavaScript are a powerful feature that allow a function to access variables from an outer function's scope
-    <br>even after the outer function has completed execution. This behavior is essential for the
-    <br>encapsulation and management of state in many JavaScript patterns and applications.
-  </p>
-</details>
-
-<details>
-  <summary>How Closures Work</summary>
-  <p>
-    When you create a function inside another function, you have created a closure.<br>
-    The inner function will have access to the variables in the outer function scope,<br>
-    even after the outer function has returned. This is possible because functions in JavaScript form closures.
+    A closure is the combination of a function bundled together (enclosed) with references to its surrounding state
+    (the lexical environment). In other words, a closure gives you access to an outer function's scope from an
+    inner function. In JavaScript, closures are created every time a function is created, at function creation time.
   </p>
 </details>
 
@@ -21,10 +12,10 @@
   <summary>Example</summary>
   <pre>
     <code>
-        function outerFunction() '{{ "{" }}'
+        function outerFunction() &#123;
           var outerVariable = 'I am outside!';
 
-          function innerFunction() '{{ "{" }}'
+          function innerFunction() &#123;
             console.log(outerVariable); // Access to the outerVariable
         }
 
@@ -33,6 +24,91 @@
 
       var myClosure = outerFunction(); // outerFunction has returned
       myClosure(); // logs 'I am outside!'
+    </code>
+  </pre>
+</details>
+
+
+<details>
+  <summary>Scoping with let and const</summary>
+  <pre>
+    <code>
+      if (Math.random() > 0.5) &#123;
+        var x = 1;
+      } else &#123;
+        var x = 2;
+      }
+      console.log(x);
+    </code>
+  </pre>
+  <p>
+    For people from other languages (e.g. C, Java) where blocks create scopes,
+    the above code should throw an error on the console.log line,
+    because we are outside the scope of x in either block. However,
+    because blocks don't create scopes for var, the var statements here actually create a global variable.
+  </p>
+
+  <p>
+    In ES6, JavaScript introduced the let and const declarations,
+    which, among other things like temporal dead zones, allow you to create block-scoped variables.
+  </p>
+
+  <pre>
+    <code>
+      if (Math.random() > 0.5) &#123;
+        const x = 1;
+      } else &#123;
+        const x = 2;
+      }
+      console.log(x); // ReferenceError: x is not defined
+
+    </code>
+  </pre>
+</details>
+
+<details>
+  <summary>Closure over the block-scoped</summary>
+  <pre>
+    <code>
+      function outer() &#123;
+        let getY;
+        &#123;
+          const y = 6;
+          getY = () => y;
+        }
+      console.log(typeof y); // undefined
+      console.log(getY()); // 6
+    }
+
+    outer();
+
+    </code>
+  </pre>
+</details>
+
+<details>
+  <summary>Closures over modules</summary>
+  <pre>
+    <code>
+      // myModule.js
+      let x = 5;
+      export const getX = () => x;
+      export const setX = (val) => &#123;
+        x = val;
+      };
+    </code>
+  </pre>
+  Here, the module exports a pair of getter-setter functions,
+  which close over the module-scoped variable x.
+  Even when x is not directly accessible from other modules,
+  it can be read and written with the functions.
+  <pre>
+    <code>
+      import &#123; getX, setX } from "./myModule.js";
+
+      console.log(getX()); // 5
+      setX(6);
+      console.log(getX()); // 6
     </code>
   </pre>
 </details>
@@ -67,5 +143,7 @@
     Understanding and debugging closures can sometimes be challenging for beginners.
   </p>
 </details>
+
+<button type="button" (click)="crazyStuff()">Test</button>
 
 

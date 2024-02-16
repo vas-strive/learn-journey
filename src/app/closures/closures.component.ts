@@ -6,4 +6,14 @@ import { Component } from '@angular/core';
   styleUrls: ['./closures.component.css']
 })
 export class ClosuresComponent {
+
+  crazyStuff() {
+    //var is a global variable
+    for (var i = 0; i < 3; i++) {
+        const log = () => {
+          console.log(i)// logs 3 ,three times
+        }
+        setTimeout(log, 100);
+    }
+  }
 }
