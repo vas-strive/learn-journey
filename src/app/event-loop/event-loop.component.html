@@ -1,0 +1,110 @@
+<h2>Event Loop</h2>
+<details>
+  <summary>Definition</summary>
+  <p>
+    The event loop is a fundamental aspect of the JavaScript runtime that allows JavaScript to perform non-blocking,
+    asynchronous operations, despite being single-threaded.
+    It plays a crucial role in how functions are executed and how asynchronous code is handled.
+  </p>
+</details>
+
+<details>
+  <summary>Key Components</summary>
+    <strong>JavaScript Runtime Model: </strong>
+  <p>
+    JavaScript runs in a single-threaded environment,
+    meaning it can only execute one piece of code at a time.
+    However, it can handle asynchronous operations such as I/O,
+    events, and timers through the event loop mechanism.
+  </p>
+
+  <strong>Call Stack: </strong>
+  <p>
+    This is where the JavaScript runtime keeps track of all the execution contexts (functions)
+    that are currently running. When a function is called, it's added (pushed) to the stack.
+    When the function completes, it's removed (popped) from the stack.
+    If the stack is empty, JavaScript will check the event queue to see if there's any
+    pending work to be done.
+  </p>
+
+  <strong>Event Queue (Task Queue): </strong>
+  <p>
+    This is where asynchronous tasks wait to be executed.
+    When asynchronous operations (like a fetch request or a setTimeout) complete,
+    they push their callback functions to the event queue.
+  </p>
+
+  <strong>Event Loop: </strong>
+  <p>
+    The event loop constantly checks the call stack to see if there's any work to be done.
+    If the call stack is empty and there are callback functions waiting in the event queue,
+    the event loop takes the first event from the queue and pushes it onto the call stack,
+    which then runs it.
+  </p>
+
+  <strong>Microtask Queue: </strong>
+  <p>
+    Apart from the event queue, there's a microtask queue,
+    which has a higher priority than the event queue.
+    Microtasks include promises and certain APIs like
+    `MutationObserver`. When a promise is resolved or rejected, its .then(), .catch(),
+    or .finally() handlers are added to the microtask queue.
+    The event loop checks the microtask queue after each callback in the call stack
+    completes and before pulling a new event from the event queue,
+    ensuring that microtasks execute before other queued events.
+  </p>
+
+  <strong>Concurrency and the Event Loop: </strong>
+  <p>
+    The event loop, along with the call stack, event queue,
+    and web APIs (like the DOM, AJAX, and timers),
+    enables JavaScript to perform non-blocking operations.
+    It allows JavaScript to offload tasks like I/O operations,
+    which can take an unpredictable amount of time,
+    ensuring the main thread (call stack) isn't blocked, and the UI remains responsive.
+  </p>
+</details>
+
+<details>
+  <summary>Adding messages</summary>
+  <p>
+    In web browsers, messages are added anytime an event occurs and there is an event listener attached to it.
+    If there is no listener, the event is lost. So a click on an element with a click event handler
+    will add a message — likewise with any other event.
+  </p>
+  <p>
+    The first two arguments to the function setTimeout are a message to add
+    to the queue and a time value (optional; defaults to 0).
+    The time value represents the (minimum) delay after which the message will be pushed into the queue.
+    If there is no other message in the queue, and the stack is empty,
+    the message is processed right after the delay. However, if there are messages,
+    the setTimeout message will have to wait for other messages to be processed.
+    For this reason, the second argument indicates a minimum time — not a guaranteed time
+  </p>
+
+  <button type="button" (click)="setTimeOut()">Adding Messages Example</button>
+
+</details>
+
+<details>
+  <summary>Zero delays</summary>
+  <p>
+    Zero delay doesn't mean the call back will fire-off after zero milliseconds.
+    Calling setTimeout with a delay of 0 (zero) milliseconds doesn't execute the callback function
+    after the given interval.
+  </p>
+  <p>
+    The execution depends on the number of waiting tasks in the queue.
+    In the example below, the message "this is just a message" will be written
+    to the console before the message in the callback gets processed,
+    because the delay is the minimum time required for the runtime to process the request (not a guaranteed time).
+  </p>
+
+  <p>
+    The setTimeout needs to wait for all the code for queued messages to complete even though you specified a
+    particular time limit for your setTimeout.
+  </p>
+
+  <button type="button" (click)="zeroDelay()">Zero Delay</button>
+
+</details>
